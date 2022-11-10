@@ -361,7 +361,24 @@ async def UrbanDef(ctx, message):
 
 #============================================================
 
+# new comment stuff
+
 # Winning Works. Just need bot checks
+
+
+def botcheck(name, v1, p1, v2, p2, v3, p3):
+  open_file = open(name, "r")
+  ValidMoves = open_file.readline().strip("\n").split("|")
+  board = []
+  for _ in range(3):
+    value = open_file.readline()
+    board.append(value.strip("\n").split(","))
+  open_file.close()
+  if board[v1][p1] == ":xe:" and board[v2][p2] == ":x:" and board[v3][
+      p3] == ":x:":
+    open_file = open(name, "w")
+    open_file.write("Bot Won!")
+    open_file.close()
 
 
 def check(name, v1, p1, v2, p2, v3, p3):
@@ -428,6 +445,55 @@ def Checks(name):
   print(x)
   if not (x == ['You Won!'] or x == ['Bot Won!']):
     check(name, 0, 2, 1, 1, 2, 0)
+
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 0, 0, 1, 0, 2)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 1, 0, 1, 1, 1, 2)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 2, 0, 2, 1, 2, 2)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 0, 1, 0, 2, 0)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 1, 1, 1, 2, 1)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 2, 1, 2, 2, 2)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 0, 1, 1, 2, 2)
+  open_file = open(name, "r")
+  x = open_file.readline().strip("\n").split("|")
+  open_file.close()
+  print(x)
+  if not (x == ['You Won!'] or x == ['Bot Won!']):
+    botcheck(name, 0, 2, 1, 1, 2, 0)
 
 
 def BotPlay(NAME):
