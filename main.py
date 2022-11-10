@@ -374,7 +374,7 @@ def botcheck(name, v1, p1, v2, p2, v3, p3):
     value = open_file.readline()
     board.append(value.strip("\n").split(","))
   open_file.close()
-  if board[v1][p1] == ":xe:" and board[v2][p2] == ":x:" and board[v3][
+  if board[v1][p1] == ":x:" and board[v2][p2] == ":x:" and board[v3][
       p3] == ":x:":
     open_file = open(name, "w")
     open_file.write("Bot Won!")
@@ -526,7 +526,11 @@ def BotPlay(NAME):
   return L1 + "\n" + L2 + "\n" + L3
 
 
-@bot.command()
+@bot.command(
+  brief=" Allows you to face a bot in TicTacToe",
+  description=
+  " Once you start the game, using !loganTicTacToe, this uses an x and y cord to place pieces",
+  Arguements="X Y")
 async def Play(ctx, x, y):
   if os.path.exists(str(ctx.author.name)):
     open_file = open(str(ctx.author.name), "r")
@@ -584,7 +588,11 @@ async def Play(ctx, x, y):
     )
 
 
-@bot.command()
+@bot.command(
+  brief=" Starts your TicTacToe game against the bot",
+  description=
+  " Must be used before you start and then once ran, you use !loganPlay x y to place pieces",
+  Arguements="None")
 async def TicTacToe(ctx):
   open_file = open(str(ctx.author.name), "w")
   open_file.write(
@@ -596,6 +604,7 @@ async def TicTacToe(ctx):
   )
 
 
+'''
 @bot.command()
 async def TTT(ctx):
   button1 = Button(label="", emoji="⬜", style=discord.ButtonStyle.gray)
@@ -653,7 +662,7 @@ async def TTT(ctx):
   await ctx.send("", view=view1)
   await ctx.send("", view=view2)
   await ctx.send("", view=view3)
-
+'''
 
 my_secret = os.environ['TOKEN']
 bot.run(my_secret)
