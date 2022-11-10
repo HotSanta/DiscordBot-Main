@@ -1,0 +1,133 @@
+
+
+
+
+
+'''
+# opponents attacks
+def Battle(name):
+  if os.path.exists(name):
+    open_file = open(name, "r")
+    enemy = open_file.readline()
+    enemyHealth = open_file.readline()
+    personHealth = open_file.readline()
+    open_file.close()
+    if enemy == "L\n":
+      open_file = open(name, "w")
+      newHealth = int(personHealth) - 20
+      fileWriting = "L\n" + str(enemyHealth) + str(newHealth)
+      open_file.write(fileWriting)
+      open_file.close()
+      return "Lizard Used Tail Swipe\nYour Health: " + str(
+        newHealth) + "\nEnemy Health: " + str(enemyHealth)
+
+
+# person attack
+@bot.command(
+  brief=" Your only attack to defend yourself from the lizard",
+  description=
+  " In order to use this command, you must be in a fight with the lizard. No further parameter is needed for this command"
+)
+async def Slap(ctx):
+  if os.path.exists(str(ctx.author.name)):
+    open_file = open(str(ctx.author.name), "r")
+    enemy = open_file.readline()
+    enemyHealth = open_file.readline()
+    personHealth = open_file.readline()
+    open_file.close()
+    if enemy == "L\n":
+      if int(enemyHealth.strip("\n")) > 0:
+        newEnemyHealth = int(enemyHealth) - 35
+        if newEnemyHealth > 0:
+          fileWriting = "L\n" + str(newEnemyHealth) + "\n" + str(personHealth)
+          open_file = open(str(ctx.author.name), "w")
+          open_file.write(fileWriting)
+          open_file.close()
+          await ctx.send("```You used Slap\nYour Health: " +
+                         str(personHealth) + "\nEnemy Health: " +
+                         str(newEnemyHealth) + "```")
+          time.sleep(2)
+          attack = Battle(str(ctx.author.name))
+          await ctx.send("```" + attack +
+                         "\nYour Abilites:\n !loganSlap\n\t-Deal 35 damage"
+                         "```")
+        else:
+          await ctx.send("```You've Won\nLizard has been defeated```")
+          os.remove(str(ctx.author.name))
+  else:
+    await ctx.send("```Not Currently Fighting any Enemy```")
+
+
+# control center of the fight
+
+
+@bot.command(
+  brief=" Begins your fight against a lizard",
+  description=
+  " Creates a file which holds the information of your fight with the lizard. Once you defeat it, your file is deleted"
+)
+async def Fight(ctx, message):
+  if message.lower() == "lizard":
+    open_file = open(str(ctx.author.name), "w")
+    open_file.write("L\n300\n500")
+    open_file.close()
+    attack = Battle(str(ctx.author.name))
+    await ctx.send("```" + attack +
+                   "\nYour Abilites:\n !loganSlap\n\t-Deal 35 damage"
+                   "```")
+
+  else:
+    await ctx.send("Please Choose a Viable enemy")
+'''
+listMembers = []
+
+
+@bot.command(name="Start" , brief = " Allows the bot to begin fights", description = " This command must be called be !loganFight (Name) is able to be called", Arguements = "None")
+async def FuncInit(ctx):
+  global listMembers
+  guilde = ctx.message.guild
+  for member in guilde.members:
+    if not member.bot:
+      listMembers.append(member.name)
+      
+def Interaction(person1, person2):
+  open_file = open(person1,"r")
+  opponent1 = open_file.readline()
+  Health1 = open_file.readline()
+  Turn1 = open_file.readline()
+  open_file.close()
+  
+  open_file = open(person2,"r")
+  opponent2 = open_file.readline()
+  Health2 = open_file.readline()
+  Turn2 = open_file.readline()
+  open_file.close()
+
+  if Turn1 == "Turn":
+    return opponent2 + " Turn:\n\tYour Health" + Health1 +"\n" + opponent1 + " Health" + Health2 + "\nYour Moves:\n\tSlap\n\tDeal 50-70 damage\nPlease Respond in Channel Where Fight Began"
+  elif Turn2 == "Turn":
+    return opponent1 + " Turn:\n\tYour Health" + Health2 +"\n" + opponent2 + " Health" + Health1 + "\nYour Moves:\n\tSlap\n\tDeal 50-70 damage\nPlease Respond In Channel Where Fight Began"
+    
+@bot.command(
+  brief=" Begins your fight against a member of the server",
+  description=
+  " Creates a file which holds the information of your fight with the member. Use !loganFight (username) to begin",
+  Arguements="User")
+async def Fight(ctx, User):
+  if ctx.author.name != User:
+    if User in listMembers:
+      open_file = open(str(ctx.author.name), "w")
+      open_file.write(User + "\n300\nTurn")
+      open_file.close()
+      open_file = open(User, "w")
+      open_file.write(str(ctx.author.name) + "\n300\nNot")
+      open_file.close()
+      await ctx.author.send("You are now fighting " + User)
+      await User.send("You are now fighting "+ ctx.author.name)
+      phrase = Interaction(str(ctx.author.name),User)
+      await ctx.author.send(phrase)
+    else:
+      await ctx.send(User + " is not in this server")
+  else:
+    await ctx.send("You Cannot Fight Yourself")
+
