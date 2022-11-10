@@ -256,6 +256,9 @@ async def Weather(ctx, zip):
                  " degrees fahrenheit right now")
 
 
+#============================================================
+
+
 # api with parameter
 @bot.command(
   brief=" Uses your name to guess your age, gender, and nationality",
@@ -307,7 +310,6 @@ async def NP(ctx, Name):
                  ", and from " + Country + ".```")
 
 
-# sends time error
 # regular definition using api key
 @bot.command(
   brief=
@@ -361,9 +363,6 @@ async def UrbanDef(ctx, message):
 
 #============================================================
 
-# new comment stuff
-
-# Winning Works. Just need bot checks
 
 
 def botcheck(name, v1, p1, v2, p2, v3, p3):
