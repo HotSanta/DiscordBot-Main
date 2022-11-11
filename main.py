@@ -364,7 +364,6 @@ async def UrbanDef(ctx, message):
 #============================================================
 
 
-
 def botcheck(name, v1, p1, v2, p2, v3, p3):
   open_file = open(name, "r")
   ValidMoves = open_file.readline().strip("\n").split("|")
@@ -573,10 +572,10 @@ async def Play(ctx, x, y):
         if x == ['You Won!']:
           await ctx.send("You Won!")
           os.remove(str(ctx.author.name))
-        if x == ['Bot Won!']:
+        elif x == ['Bot Won!']:
           await ctx.send("Bot Won!")
           os.remove(str(ctx.author.name))
-        if ValidMoves == []:
+        elif ValidMoves == []:
           await ctx.send("No-One Won!")
           os.remove(str(ctx.author.name))
       else:
