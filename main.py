@@ -607,7 +607,7 @@ def place(name,Line,row):
   open_file.close()
   Place = True
   while Place and Line !=6:
-    if board[Line][row-1] == ":white_large_square":
+    if board[Line][row-1] == ":white_large_square:":
       Line +=1
     else:
       Place = False
@@ -636,9 +636,9 @@ def place(name,Line,row):
   " Displays the board and buttons, which will place your piece in the desired lane",
   Arguements="None")
 async def Connect4(ctx):
-  open_file = open(ctx.author.name + "#", "w")
+  open_file = open(ctx.author.name + "#", "w")  
   open_file.write(
-    ":white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:"
+  ":white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:"
   )
   open_file.close()
   open_file = open(ctx.author.name + "#", "r")
@@ -653,6 +653,7 @@ async def Connect4(ctx):
   L4 = "".join(board[3])
   L5 = "".join(board[4])
   L6 = "".join(board[5])
+  
   button1 = Button(label="",
                    emoji="1️⃣",
                    style=discord.ButtonStyle.gray,
@@ -675,6 +676,10 @@ async def Connect4(ctx):
                    row=1)
   button6 = Button(label="",
                    emoji="6️⃣",
+                   style=discord.ButtonStyle.gray,
+                   row=1)
+  button7 = Button(label="",
+                   emoji="7️⃣",
                    style=discord.ButtonStyle.gray,
                    row=1)
 
@@ -781,6 +786,7 @@ async def Connect4(ctx):
       await ctx.send(message, view=view1)
 
   async def button6Clicked(interaction):
+  
     x = place(ctx.author.name + "#",0,6)
     if x == "Invalid Move":
       await ctx.send("Invalid Move")
@@ -800,12 +806,34 @@ async def Connect4(ctx):
       message = L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6
       await ctx.send(message, view=view1)
 
+  async def button7Clicked(interaction):
+    x = place(ctx.author.name + "#",0,7)
+    if x == "Invalid Move":
+      await ctx.send("Invalid Move")
+    else:
+      open_file = open(ctx.author.name + "#", "r")
+      board = []
+      for _ in range(6):
+        value = open_file.readline()
+        board.append(value.strip("\n").split(","))
+      open_file.close()
+      L1 = "".join(board[0])
+      L2 = "".join(board[1])
+      L3 = "".join(board[2])
+      L4 = "".join(board[3])
+      L5 = "".join(board[4])
+      L6 = "".join(board[5])
+      message = L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6
+      await ctx.send(message, view=view1)
+
+  
   button1.callback = button1Clicked
   button2.callback = button2Clicked
   button3.callback = button3Clicked
   button4.callback = button4Clicked
   button5.callback = button5Clicked
   button6.callback = button6Clicked
+  button7.callback = button7Clicked
   view1 = View()
   view1.add_item(button1)
   view1.add_item(button2)
@@ -813,8 +841,9 @@ async def Connect4(ctx):
   view1.add_item(button4)
   view1.add_item(button5)
   view1.add_item(button6)
-  message = L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6
-  await ctx.send(message, view=view1)
+  view1.add_item(button7)
+  
+  message = await ctx.send(L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6, view=view1)
 
 #============================================================
 
