@@ -597,7 +597,9 @@ async def TicTacToe(ctx):
 
 
 #============================================================
-
+# add alternating for two people
+# use os.path.exists() to make sure person playing person playing
+# minmax solution for bot plays
 def place(name,Line,row):
   open_file = open(name,"r")
   board = []
@@ -843,7 +845,7 @@ async def Connect4(ctx):
   view1.add_item(button6)
   view1.add_item(button7)
   
-  message = await ctx.send(L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6, view=view1)
+  await ctx.send(L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6, view=view1)
 
 #============================================================
 
