@@ -653,16 +653,20 @@ def Checks(name):
 
 
 def BotPlay(NAME):
+  chance = r.randint(1,3)
   open_file = open(NAME, "r")
   ValidMoves = open_file.readline().strip("\n").split("|")
-  
   board = []
   for _ in range(3):
     value = open_file.readline()
     board.append(value.strip("\n").split(","))
   open_file.close()
-  bestMove = findBestMove(board)
-  play = str(bestMove[0] + 1) + "," + str(bestMove[1] + 1)
+  # Has a 1/3 to play a random move, and a 2/3 chance to play the best move
+  if chance in [2,3]:
+    bestMove = findBestMove(board)
+    play = str(bestMove[0] + 1) + "," + str(bestMove[1] + 1)
+  elif chance == 1:
+    play = r.choice(ValidMoves)
   board[int(play[0]) - 1][int(play[2]) - 1] = ":x:"
   ValidMoves.remove(play)
   L1 = "".join(board[0])
