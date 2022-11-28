@@ -3,7 +3,7 @@
 
 
 
-'''
+
 # opponents attacks
 def Battle(name):
   if os.path.exists(name):
