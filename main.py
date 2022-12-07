@@ -366,9 +366,6 @@ async def UrbanDef(ctx, message):
 player, opponent = ':x:', ':green_circle:'
 
 
-# This function returns true if there are moves
-# remaining on the board. It returns false if
-# there are no moves left to play.
 def isMovesLeft(board):
 
   for i in range(3):
@@ -754,7 +751,7 @@ async def TicTacToe(ctx):
   )
 
 
-
+#============================================================
 
 
 def checks(piece, last, name):
@@ -767,7 +764,7 @@ def checks(piece, last, name):
   open_file.close()
   cords = last.split(',')
   i = int(cords[0])  # row/x
-  j = int(cords[1])  # collum/y
+  j = int(cords[1])  # colum/y
 
   # checks for 000_
   if j > 2:
@@ -816,21 +813,26 @@ def checks(piece, last, name):
         i - 3][j + 3] == piece:
       return piece + " won"
   # check for 2nd top piece of down-right diagonal
-  if i in [1,2,3] and j in [1,2,3,4]:
-    if board[i - 1][j - 1] == piece and board[i +1 ][j + 1] == piece and board[i +2][j +2] == piece:
+  if i in [1, 2, 3] and j in [1, 2, 3, 4]:
+    if board[i - 1][j - 1] == piece and board[i + 1][j + 1] == piece and board[
+        i + 2][j + 2] == piece:
       return piece + " won"
   # check for 3rd piece of down-right diagonal
-  if i in [2,3,4] and j in [2,3,4,5]:
-    if board[i - 1][j - 1] == piece and board[i -2 ][j -2] == piece and board[i +1][j +1] == piece:
+  if i in [2, 3, 4] and j in [2, 3, 4, 5]:
+    if board[i - 1][j - 1] == piece and board[i - 2][j - 2] == piece and board[
+        i + 1][j + 1] == piece:
       return piece + " won"
   # check for 2nd piece of down-left diagonal
-  if i in [1,2,3] and j in [2,3,4,5]:
-    if board[i - 1][j + 1] == piece and board[i +1 ][j -1] == piece and board[i +2][j -2] == piece:
+  if i in [1, 2, 3] and j in [2, 3, 4, 5]:
+    if board[i - 1][j + 1] == piece and board[i + 1][j - 1] == piece and board[
+        i + 2][j - 2] == piece:
       return piece + " won"
   # check for 3rd piece in down-left diagonal
-  if i in [2,3,4] and j in [1,2,3,4]:
-    if board[i - 1][j + 1] == piece and board[i +1 ][j -1] == piece and board[i -2][j +2] == piece:
+  if i in [2, 3, 4] and j in [1, 2, 3, 4]:
+    if board[i - 1][j + 1] == piece and board[i + 1][j - 1] == piece and board[
+        i - 2][j + 2] == piece:
       return piece + " won"
+
 
 def place(name, Line, row):
   open_file = open(name, "r")
@@ -878,11 +880,13 @@ def place(name, Line, row):
   " Displays the board and buttons, which will place your piece in the desired lane",
   Arguements="None")
 async def Connect4(ctx):
-  open_file = open(ctx.author.name + "#", "w")
-  open_file.write(
-    ":green_circle:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:"
-  )
-  open_file.close()
+
+  if not os.path.exists(ctx.author.name + "#"):
+    open_file = open(ctx.author.name + "#", "w")
+    open_file.write(
+      ":green_circle:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:\n:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:,:white_large_square:"
+    )
+    open_file.close()
   open_file = open(ctx.author.name + "#", "r")
   board = []
   piece = open_file.readline()
@@ -925,6 +929,9 @@ async def Connect4(ctx):
                    emoji="7️⃣",
                    style=discord.ButtonStyle.gray,
                    row=1)
+  button8 = Button(label="End Game",
+                   style=discord.ButtonStyle.gray,
+                   row=2)
 
   async def button1Clicked(interaction):
     returns = place(ctx.author.name + "#", 0, 1)
@@ -1250,6 +1257,26 @@ async def Connect4(ctx):
     await m.edit(content=message, view=view1)
     await interaction.response.defer()
 
+  async def button8Clicked(interaction):
+    open_file = open(ctx.author.name + "#","r")
+    board = []
+    piece = open_file.readline()
+    for _ in range(6):
+      value = open_file.readline()
+      board.append(value.strip("\n").split(","))
+    open_file.close()
+    L1 = "".join(board[0])
+    L2 = "".join(board[1])
+    L3 = "".join(board[2])
+    L4 = "".join(board[3])
+    L5 = "".join(board[4])
+    L6 = "".join(board[5])
+    os.remove(ctx.author.name + "#")
+    view1.clear_items()
+    message = L1 + "\n" + L2 + "\n" + L3 + "\n" + L4 + "\n" + L5 + "\n" + L6 + "\n" + ctx.author.name + "'s Game Ended\nUse !loganConnect4 to begin a new game"
+    await m.edit(content=message,view=view1)
+    await  interaction.response.defer()
+
   button1.callback = button1Clicked
   button2.callback = button2Clicked
   button3.callback = button3Clicked
@@ -1257,11 +1284,18 @@ async def Connect4(ctx):
   button5.callback = button5Clicked
   button6.callback = button6Clicked
   button7.callback = button7Clicked
-
+  button8.callback = button8Clicked
+  
   async def fullBoardCheck():
     if button1.disabled == True and button2.disabled == True and button3.disabled == True and button4.disabled == True and button5.disabled == True and button6.disabled == True and button7.disabled == True:
       return "Full"
 
+  
+      
+  
+
+  
+  
   view1 = View()
   view1.add_item(button1)
   view1.add_item(button2)
@@ -1270,13 +1304,14 @@ async def Connect4(ctx):
   view1.add_item(button5)
   view1.add_item(button6)
   view1.add_item(button7)
+  view1.add_item(button8)
 
   m = await ctx.send(piece + " turn\n" + L1 + "\n" + L2 + "\n" + L3 + "\n" +
                      L4 + "\n" + L5 + "\n" + L6,
                      view=view1)
 
 
-#===========================================================
+#============================================================
 
 my_secret = os.environ['TOKEN']
 bot.run(my_secret)
